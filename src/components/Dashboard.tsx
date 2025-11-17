@@ -7,11 +7,17 @@ import {
   Search, Menu, Moon, Bell, ChevronDown, TrendingUp, TrendingDown,
   Phone, MessageCircle, FileText, Plus, Calendar as CalendarIcon,
   User, BarChart3, Wallet, MoreVertical, PhoneIncoming, PhoneOutgoing,
-  PhoneMissed
+  PhoneMissed, ShoppingBag, Star, Sparkles, BookOpen
 } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
-export function Dashboard() {
+interface DashboardProps {
+  onNavigate: (page: 'home' | 'kundali' | 'shop' | 'horoscope' | 'panchang' | 'astrologers' | 'chat' | 'dashboard') => void;
+  onOpenCart: () => void;
+  cartCount: number;
+}
+
+export function Dashboard({ onNavigate, onOpenCart, cartCount }: DashboardProps) {
   const [selectedPeriod, setSelectedPeriod] = useState('Yearly');
 
   // Stats data
@@ -66,25 +72,29 @@ export function Dashboard() {
       icon: <Plus className="w-5 h-5 text-gray-600" />,
       title: 'New Session',
       subtitle: 'Start a new consultation',
-      color: 'bg-white'
+      color: 'bg-white',
+      action: () => onNavigate('chat')
     },
     {
       icon: <FileText className="w-5 h-5 text-orange-600" />,
       title: 'Generate Report',
       subtitle: 'Create Kundali report',
-      color: 'bg-orange-50'
+      color: 'bg-orange-50',
+      action: () => onNavigate('kundali')
     },
     {
       icon: <Wallet className="w-5 h-5 text-blue-600" />,
       title: 'Add Balance',
       subtitle: 'Renew account balance',
-      color: 'bg-blue-50'
+      color: 'bg-blue-50',
+      action: () => onOpenCart()
     },
     {
       icon: <Bell className="w-5 h-5 text-green-600" />,
       title: 'Notifications',
       subtitle: 'View pending alerts',
-      color: 'bg-green-50'
+      color: 'bg-green-50',
+      action: () => {}
     }
   ];
 
@@ -123,7 +133,8 @@ export function Dashboard() {
       amount: '₹800',
       status: 'completed',
       avatar: 'RK',
-      bgColor: 'bg-orange-100 text-orange-700'
+      bgColor: 'bg-orange-100 text-orange-700',
+      onClick: () => onNavigate('chat')
     },
     {
       name: 'Amit Patel',
@@ -132,7 +143,8 @@ export function Dashboard() {
       amount: '₹500',
       status: 'delivered',
       avatar: 'AP',
-      bgColor: 'bg-blue-100 text-blue-700'
+      bgColor: 'bg-blue-100 text-blue-700',
+      onClick: () => onNavigate('kundali')
     },
     {
       name: 'Priya Sharma',
@@ -141,7 +153,8 @@ export function Dashboard() {
       amount: '₹200',
       status: 'active',
       avatar: 'PS',
-      bgColor: 'bg-pink-100 text-pink-700'
+      bgColor: 'bg-pink-100 text-pink-700',
+      onClick: () => onNavigate('chat')
     },
     {
       name: 'Sunita Devi',
@@ -150,7 +163,8 @@ export function Dashboard() {
       amount: '₹0',
       status: 'missed',
       avatar: 'SD',
-      bgColor: 'bg-red-100 text-red-700'
+      bgColor: 'bg-red-100 text-red-700',
+      onClick: () => onNavigate('chat')
     }
   ];
 
@@ -212,46 +226,105 @@ export function Dashboard() {
         <div className="flex-1 overflow-y-auto p-4">
           <p className="text-xs text-gray-400 uppercase mb-3 px-3">MENU</p>
           <nav className="space-y-1">
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 bg-orange-50 text-orange-600 rounded-lg">
+            <button 
+              onClick={() => onNavigate('dashboard')}
+              className="flex items-center gap-3 px-3 py-2.5 bg-orange-50 text-orange-600 rounded-lg w-full text-left"
+            >
               <BarChart3 className="w-5 h-5" />
               <span>Dashboard</span>
-            </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
+            </button>
+            <button 
+              onClick={() => onNavigate('panchang')}
+              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg w-full text-left"
+            >
               <CalendarIcon className="w-5 h-5" />
-              <span>Calendar</span>
-            </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
+              <span>Panchang</span>
+            </button>
+            <button 
+              onClick={() => onNavigate('astrologers')}
+              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg w-full text-left"
+            >
               <User className="w-5 h-5" />
-              <span>User Profile</span>
-            </a>
+              <span>Astrologers</span>
+            </button>
             
             <div>
               <button className="flex items-center justify-between w-full px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
                 <div className="flex items-center gap-3">
                   <FileText className="w-5 h-5" />
-                  <span>Report</span>
+                  <span>Kundali</span>
                 </div>
                 <ChevronDown className="w-4 h-4" />
               </button>
               <div className="ml-8 mt-1 space-y-1">
-                <a href="#" className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600">Analytics</a>
-                <a href="#" className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600">Revenue</a>
+                <button 
+                  onClick={() => onNavigate('kundali')}
+                  className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600 w-full text-left"
+                >
+                  Generate Kundali
+                </button>
+                <button 
+                  onClick={() => onNavigate('horoscope')}
+                  className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600 w-full text-left"
+                >
+                  Horoscope
+                </button>
               </div>
             </div>
 
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
+            <button 
+              onClick={() => onNavigate('chat')}
+              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg w-full text-left"
+            >
               <Phone className="w-5 h-5" />
               <span>Call</span>
-            </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
+            </button>
+            <button 
+              onClick={() => onNavigate('chat')}
+              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg w-full text-left"
+            >
               <MessageCircle className="w-5 h-5" />
               <span>Chat</span>
-            </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg">
-              <MessageCircle className="w-5 h-5" />
-              <span>Text</span>
-            </a>
+            </button>
+            <button 
+              onClick={() => onNavigate('shop')}
+              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg w-full text-left"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              <span>Shop</span>
+              {cartCount > 0 && (
+                <Badge className="ml-auto bg-orange-600 text-white">{cartCount}</Badge>
+              )}
+            </button>
           </nav>
+
+          {/* Quick Actions */}
+          <div className="mt-8">
+            <p className="text-xs text-gray-400 uppercase mb-3 px-3">QUICK ACCESS</p>
+            <div className="space-y-2">
+              <button 
+                onClick={() => onNavigate('horoscope')}
+                className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-orange-50 rounded-lg w-full text-left group"
+              >
+                <Star className="w-5 h-5 group-hover:text-orange-600" />
+                <span className="group-hover:text-orange-600">Daily Horoscope</span>
+              </button>
+              <button 
+                onClick={() => onNavigate('kundali')}
+                className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-orange-50 rounded-lg w-full text-left group"
+              >
+                <Sparkles className="w-5 h-5 group-hover:text-orange-600" />
+                <span className="group-hover:text-orange-600">Free Kundali</span>
+              </button>
+              <button 
+                onClick={() => onNavigate('home')}
+                className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-orange-50 rounded-lg w-full text-left group"
+              >
+                <BookOpen className="w-5 h-5 group-hover:text-orange-600" />
+                <span className="group-hover:text-orange-600">Back to Home</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -280,6 +353,19 @@ export function Dashboard() {
               <Button variant="ghost" size="sm" className="rounded-full relative">
                 <Bell className="w-5 h-5" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-orange-500 rounded-full"></span>
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={onOpenCart}
+                className="rounded-full relative"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-orange-600 text-white text-xs rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </Button>
               <Button variant="ghost" className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
@@ -341,6 +427,7 @@ export function Dashboard() {
             {actionButtons.map((button, index) => (
               <button
                 key={index}
+                onClick={button.action}
                 className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-xl hover:shadow-md transition-shadow text-left"
               >
                 <div className={`w-10 h-10 ${button.color} rounded-lg flex items-center justify-center`}>
@@ -480,7 +567,11 @@ export function Dashboard() {
               <CardContent>
                 <div className="space-y-4">
                   {recentActivity.map((activity, index) => (
-                    <div key={index} className="flex items-start gap-3 pb-4 border-b border-gray-100 last:border-0">
+                    <div 
+                      key={index} 
+                      onClick={activity.onClick}
+                      className="flex items-start gap-3 pb-4 border-b border-gray-100 last:border-0 cursor-pointer hover:bg-orange-50 p-2 rounded-lg transition-colors"
+                    >
                       <div className={`w-10 h-10 rounded-full ${activity.bgColor} flex items-center justify-center flex-shrink-0`}>
                         <span className="text-sm">{activity.avatar}</span>
                       </div>

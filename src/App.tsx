@@ -121,7 +121,11 @@ export default function App() {
       )}
 
       {currentPage === 'dashboard' && (
-        <Dashboard />
+        <Dashboard 
+          onNavigate={setCurrentPage}
+          onOpenCart={() => setIsCartOpen(true)}
+          cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
+        />
       )}
 
       {currentPage !== 'dashboard' && currentPage !== 'chat' && (
