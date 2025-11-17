@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#ea580c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mero Jyotish">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- Primary Meta Tags -->
+  <title>Mero Jyotish - Vedic Astrology, Kundali & Horoscope</title>
+  <meta name="title" content="Mero Jyotish - Vedic Astrology, Kundali & Horoscope">
+  <meta name="description" content="Complete Vedic Astrology platform with free Kundali generation, daily horoscope, Panchang, astrologer consultation, and spiritual products shop. Get personalized predictions and guidance.">
+  <meta name="keywords" content="vedic astrology, kundali, horoscope, jyotish, panchang, birth chart, astrologer consultation, gemstones, rudraksha, yantras">
+  <meta name="author" content="Mero Jyotish">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://merojyotish.com/">
+  <meta property="og:title" content="Mero Jyotish - Vedic Astrology & Kundali">
+  <meta property="og:description" content="Free Kundali generation, daily horoscope, Panchang, and astrologer consultation. Your complete Vedic astrology platform.">
+  <meta property="og:image" content="/icons/icon-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://merojyotish.com/">
+  <meta property="twitter:title" content="Mero Jyotish - Vedic Astrology & Kundali">
+  <meta property="twitter:description" content="Free Kundali generation, daily horoscope, Panchang, and astrologer consultation.">
+  <meta property="twitter:image" content="/icons/icon-512x512.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-72x72.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-72x72.png">
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-128x128.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icons/icon-128x128.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- Splash Screens for iOS -->
+  <link rel="apple-touch-startup-image" href="/icons/icon-512x512.png">
+  
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-TileColor" content="#ea580c">
+  <meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+  <meta name="msapplication-config" content="/browserconfig.xml">
+  
+  <!-- Safe Area Insets for Notched Devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  
+  <style>
+    /* Prevent flash of unstyled content */
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Loading screen */
+    #app-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, #fff7ed, #ffffff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    
+    #app-loading .loader {
+      text-align: center;
+    }
+    
+    #app-loading .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #fed7aa;
+      border-top-color: #ea580c;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Safe area insets for notched devices */
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+  </style>
+</head>
+<body>
+  <div id="app-loading">
+    <div class="loader">
+      <div style="font-size: 48px; margin-bottom: 20px;">🕉️</div>
+      <div class="spinner"></div>
+      <p style="margin-top: 20px; color: #ea580c; font-weight: 600;">Loading Mero Jyotish...</p>
+    </div>
+  </div>
+  
+  <div id="root"></div>
+  
+  <script>
+    // Hide loading screen once app loads
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('app-loading');
+      if (loader) {
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          loader.style.transition = 'opacity 0.5s';
+          setTimeout(() => loader.remove(), 500);
+        }, 500);
+      }
+    });
+    
+    // Handle install prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+  </script>
+  
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

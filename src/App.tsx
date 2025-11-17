@@ -12,6 +12,10 @@ import { ConsultationInterface } from './components/ConsultationInterface';
 import { Dashboard } from './components/Dashboard';
 import { Footer } from './components/Footer';
 import { ShoppingCart } from './components/ShoppingCart';
+import { PWAInstallPrompt } from './components/PWAInstallPrompt';
+import { OfflineIndicator } from './components/OfflineIndicator';
+import { MobileBottomNav } from './components/MobileBottomNav';
+import { usePWA } from './hooks/usePWA';
 
 export interface BirthDetails {
   name: string;
@@ -35,6 +39,9 @@ export default function App() {
   const [birthDetails, setBirthDetails] = useState<BirthDetails | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  
+  // Initialize PWA
+  usePWA();
 
   const addToCart = (item: Omit<CartItem, 'quantity'>) => {
     setCart(prev => {
@@ -63,7 +70,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white pb-20 md:pb-0">
       {currentPage !== 'dashboard' && (
         <Header 
           currentPage={currentPage} 
@@ -137,6 +144,14 @@ export default function App() {
         onClose={() => setIsCartOpen(false)}
         items={cart}
         onUpdateQuantity={updateCartQuantity}
+      />
+
+      <PWAInstallPrompt />
+      <OfflineIndicator />
+      <MobileBottomNav 
+        currentPage={currentPage} 
+        onNavigate={setCurrentPage}
+        cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
       />
     </div>
   );
